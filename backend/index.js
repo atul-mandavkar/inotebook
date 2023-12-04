@@ -10,6 +10,9 @@ app.get("/", (req, res) => {
   res.send("Hello Antya");
 });
 
+// Middleware to read from body
+app.use(express.json());
+
 // Availabe routes
 app.use('/api/auth', require('./routes/auth'));
 app.use("/api/note", require("./routes/note"));
