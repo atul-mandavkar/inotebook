@@ -21,6 +21,5 @@ const UserSchema = new Schema({
   },
 });
 
-const User = mongoose.model('user', UserSchema);
-User.createIndexes(); // For to make email unique we made indexes in schema model snd then export thtat schema
-module.exports = User;
+// No need to create new index , we can handle the unique email problem from auth.js file
+module.exports = mongoose.model("user", UserSchema);

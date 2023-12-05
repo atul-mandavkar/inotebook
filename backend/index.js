@@ -4,7 +4,7 @@ const express = require("express");
 connectToMongo();
 
 const app = express();
-const port = 3000;
+const port = 5000; // changed the port number because react app will run on port 3000 by default
 
 app.get("/", (req, res) => {
   res.send("Hello Antya");
