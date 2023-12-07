@@ -3,6 +3,9 @@ const router = express.Router();
 const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
+
+const jwt_secret = "My name is Atul"; // this is example of jwt token secret signature which we should store in env.local or in config to keep it secrete ( here we donot saved in env.local for understanding the concept)
 
 // Create a User using : POST "r/api/auth/createUser"  and also doesn't require auth. where createUser is in api/auth
 // use post method instead of get method of router because of user data is shown in get method but not in post method.
@@ -38,7 +41,10 @@ router.post(
         .save()
         .catch((err) => console.log(err))
         .then(console.log("user is saved on database"));
-      return res.send(req.body);
+
+        // when user successfully saved in database then we send him a json token 
+        token = jwt.sign({ id: user.id }, jwt_secret); // sign method is used to create token, first paramete is object and second parameter is signatue which is a secrete. 
+        return res.send({token}); // we send token to who signed in instead of sending their whole information 
     } catch (error) {
       console.error(error.message);
       res.status(500).send("some error occured");

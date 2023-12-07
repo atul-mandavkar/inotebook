@@ -8,8 +8,7 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
-    unique: true
+    required: true // Removed unique property from password because it make and extra index in database
   },
   password: {
     type: String,
