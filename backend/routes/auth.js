@@ -43,13 +43,48 @@ router.post(
         .then(console.log("user is saved on database"));
 
         // when user successfully saved in database then we send him a json token 
-        token = jwt.sign({ id: user.id }, jwt_secret); // sign method is used to create token, first paramete is object and second parameter is signatue which is a secrete. 
+        const token = jwt.sign({ id: user.id }, jwt_secret); // sign method is used to create token, first paramete is object and second parameter is signatue which is a secrete. 
         return res.send({token}); // we send token to who signed in instead of sending their whole information 
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("some error occured");
+      res.status(500).send("some internal error occured");
     }
   }
 );
+
+// Authenticate a User using : POST "r/api/auth/login"  and also doesn't require auth. where createUser is in api/auth
+// Here only email and password is check and if not coreect email or for empty password error massage is send and also server is not triggered and when everything is correct then we check email and password available in database or not
+router.post("/login", [
+  body("email", "Enter valid email").isEmail(),
+  body("password", "Password should not empty").exists(),
+], async (req,res)=>{
+  const result = validationResult(req);
+  if(!result.isEmpty()){
+    return res.status(400).send({ errors: result.array() });    
+  }
+
+  const{email, password} = req.body; // destructuring email and password from req.body
+
+  try {
+    let user = await User.findOne({ email }); // find if user is availabe or not in database
+    if (!user) {
+      console.log("User unavailable");
+      return res.status(400).send({ error: "Email or password not correct" });
+    }
+
+    const passwordCmp = await bcrypt.compare(password, user.password); // bcript method to check password matched to the password in database for given user
+    if (!passwordCmp) {
+      console.log("User unavailable");
+      return res.status(400).send({ error: "Email or password not correct" });
+    }
+    console.log("User available");
+    // when user is with correct password and email in database then we send him a json token
+    const token = jwt.sign({ id: user.id }, jwt_secret); // sign method is used to create token, first paramete is object and second parameter is signatue which is a secrete.
+    return res.send({ token }); // we send token to who signed in instead of sending their whole information
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("some internal error occured");    
+  }
+});
 
 module.exports = router;

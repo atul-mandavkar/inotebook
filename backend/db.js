@@ -4,10 +4,7 @@ const mongoURI = "mongodb://127.0.0.1:27017/inotebook";  // in database we creat
 
 const connectToMongo = async () =>{
     await mongoose
-      .connect(mongoURI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
+      .connect(mongoURI)
       .then(() => console.log("Database connected!"))
       .catch((err) => console.log(err));
 }
