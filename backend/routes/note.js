@@ -17,7 +17,7 @@ router.get("/fetchAllNotes", fetchUser, async (req, res) => {
 
 // route 2: Add new note using : POST "/api/note/addNote" , login required
 // here we set input validation after the fetchUser middleware
-router.get(
+router.post(
   "/addNote",
   fetchUser,
   [
