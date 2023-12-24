@@ -1,11 +1,7 @@
-import React, {useContext} from "react";
-import noteContext from "../context/note/noteContext";
+import React from "react";
+import Note from "./Note";
 
 function Home() {
-  const context = useContext(noteContext); // using useContext for notes
-  const {notes, setNotes} = context; // desctructring the notes and setNoes from context
-  console.log(setNotes);
-
   return (
     <div>
       <div className="container my-3 bg-secondary-subtle">
@@ -50,12 +46,8 @@ function Home() {
           </button>
         </form>
       </div>
-      <div className="container my-3">
-        <h2>Your Note: </h2>
-        {notes.map((note)=> {
-          return note.title;
-        })}
-      </div>
+      {/* Removed note related content from Home component and paste in newly created Note component and also calling Note component Here */}      
+      <Note />
     </div>
   );
 }

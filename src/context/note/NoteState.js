@@ -23,6 +23,25 @@ const NoteState = (props) => {
       __v: 0,
     },
     {
+      _id: "657b14f5c60bc5bfca1f670b",
+      user: "657ad3283db15b3a927f246e",
+      title: "Rawdy Rathod 2",
+      description: "Jo mai bolta hun wo mai karta hun",
+      tag: "action movie",
+      date: "2023-12-14T14:45:09.398Z",
+      __v: 0,
+    },
+    {
+      _id: "657b16cef74be8e40112a80f",
+      user: "657ad3283db15b3a927f246e",
+      title: "Rawdy Rathod 2",
+      description:
+        "Jo mai bolta hun wo mai karta hun aur jo mai nahi bolta wo mai definately karta hun",
+      tag: "action movie",
+      date: "2023-12-14T14:53:02.215Z",
+      __v: 0,
+    },
+    {
       _id: "657b1a2fce89ac7029b507af",
       user: "657ad3283db15b3a927f246e",
       title: "Rawdy Rathod",
