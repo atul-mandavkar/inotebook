@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import About from "./components/About";
 import NoteState from "./context/note/NoteState";
+import Alert from "./components/Alert";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         {/* wrap all code inside NoteState component so that each component can use contex api */}
         <Router>
           <Navbar />
+          <Alert />
           <div className="container">
             <Switch>
               <Route exact path="/">
