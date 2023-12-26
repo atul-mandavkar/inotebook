@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* setting some style to fontawesome icons and settiong cursor to change to pointer */
+i{
+  cursor: pointer;
+}
+i:hover{
+  transform: scale(1.2);
+}
