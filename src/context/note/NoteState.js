@@ -67,9 +67,10 @@ const NoteState = (props) => {
   
   // Add note function takes three argument title and description
   const addNote = (title, description, tag) => {
-    console.log("Adding note");
+    //console.log("Adding note"); 
+    // API call to do (serverside working of this method) Here _id is same for all newly created notes because it is copied from here only
     const note = {
-      _id: "657c55823b50890085b150e9",
+      _id: "657c55823b50890085b150z9",
       user: "657ad3283db15b3a927f246e",
       title: title,
       description: description,
@@ -80,8 +81,13 @@ const NoteState = (props) => {
     setNotes(notes.concat(note)); // concat method is used to add new note to original notes array (instead of push method)
   }
 
-  // Delete note
-  const deleteNote = () => {};
+  // Delete note method take id as parameter for which to perform deletion
+  const deleteNote = (id) => {
+    //console.log("Deleted note with id : ", id);
+    // API call to do (serverside working of this method) Here if we delete only one of newly created note then all newly created note gets automaticaaly delete because they all have same _id
+    const newNotes = notes.filter((note) => note._id !== id); // filter method is used to ignore only that note whose id is match to id from parameter and all other notes saved in newNotes
+    setNotes(newNotes); // setting newNotes in place of notes
+  };
 
   // Edit note
   const editNote = () => {};

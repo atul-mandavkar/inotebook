@@ -6,8 +6,7 @@ import AddNote from "./AddNote"; // Adding AddNote component here
 
 function Note() {
   const context = useContext(noteContext); // using useContext for notes
-  const { notes, setNotes } = context; // desctructring the notes and setNotes from context
-  console.log(setNotes);
+  const { notes} = context; // desctructring the notes from context
 
   return (
     <>
