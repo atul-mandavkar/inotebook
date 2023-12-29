@@ -10,7 +10,6 @@ function App() {
   return (
     <>
       <NoteState>
-        {" "}
         {/* wrap all code inside NoteState component so that each component can use contex api */}
         <Router>
           <Navbar />

@@ -1,85 +1,67 @@
 import NoteContext from "./noteContext";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const NoteState = (props) => {
-  const notesInitial = [
-    {
-      _id: "657b14f5c60bc5bfca1f670a",
-      user: "657ad3283db15b3a927f246e",
-      title: "Rawdy Rathod",
-      description: "Jo mai bolta hun wo mai karta hun",
-      tag: "action movie",
-      date: "2023-12-14T14:45:09.398Z",
-      __v: 0,
-    },
-    {
-      _id: "657b16cef74be8e40112a80e",
-      user: "657ad3283db15b3a927f246e",
-      title: "Rawdy Rathod",
-      description:
-        "Jo mai bolta hun wo mai karta hun aur jo mai nahi bolta wo mai definately karta hun",
-      tag: "action movie",
-      date: "2023-12-14T14:53:02.215Z",
-      __v: 0,
-    },
-    {
-      _id: "657b14f5c60bc5bfca1f670b",
-      user: "657ad3283db15b3a927f246e",
-      title: "Rawdy Rathod 2",
-      description: "Jo mai bolta hun wo mai karta hun",
-      tag: "action movie",
-      date: "2023-12-14T14:45:09.398Z",
-      __v: 0,
-    },
-    {
-      _id: "657b16cef74be8e40112a80f",
-      user: "657ad3283db15b3a927f246e",
-      title: "Rawdy Rathod 2",
-      description:
-        "Jo mai bolta hun wo mai karta hun aur jo mai nahi bolta wo mai definately karta hun",
-      tag: "action movie",
-      date: "2023-12-14T14:53:02.215Z",
-      __v: 0,
-    },
-    {
-      _id: "657b1a2fce89ac7029b507af",
-      user: "657ad3283db15b3a927f246e",
-      title: "Rawdy Rathod",
-      description:
-        "chikni kamar pe mera dil phisal gaya, strongly ye jaadu tera muzpe chad gaya",
-      tag: "action movie",
-      date: "2023-12-14T15:07:27.743Z",
-      __v: 0,
-    },
-    {
-      _id: "657c55823b50890085b150e9",
-      user: "657ad3283db15b3a927f246e",
-      title: "Rawdy Rathod",
-      description: "chandaniya chhup jana re",
-      tag: "action movie",
-      date: "2023-12-15T13:32:50.039Z",
-      __v: 0,
-    },
-  ];
+  const notesInitial = [];
 
-  
   const [notes, setNotes] = useState(notesInitial); // using useNote to set state of notes
-  
-  // Add note function takes three argument title and description
-  const addNote = (title, description, tag) => {
-    //console.log("Adding note"); 
-    // API call to do (serverside working of this method) Here _id is same for all newly created notes because it is copied from here only
-    const note = {
-      _id: "657c55823b50890085b150z9",
-      user: "657ad3283db15b3a927f246e",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "2023-12-15T13:32:50.039Z",
-      __v: 0,
+  const hostName = "http://localhost:5000"; // make a variable which contain a common string used for path for fetch method
+
+  // get all notes function which take no argument because fetchAllNotes api not use any content from body of html
+  // By using useCallback with an empty dependency array, you ensure that getNotes remains the same function reference across renders. This should prevent the infinite loop in your Note component.
+  const getNotes = useCallback(async () => {
+    try {
+      // Default options are marked with *
+      const response = await fetch(`${hostName}/api/note/fetchAllNotes`, {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+          "auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1N2FkMzI4M2RiMTViM2E5MjdmMjQ2ZSIsImlhdCI6MTcwMjU2MjAzM30.99fYKVlmSlGsF9MVBbS1oqOqA4M-5cBqgY92wPODeOU",
+          // 'auth-token' : "authentication token created when user login "
+        },
+      });
+      if (!response.ok) {
+        // Check for HTTP error status
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const json = await response.json(); // parses JSON response into native JavaScript objects
+      console.log(json);
+      setNotes(json);
+    } catch (error) {
+      console.error("Error fetching notes ", error.message);
     }
-    setNotes(notes.concat(note)); // concat method is used to add new note to original notes array (instead of push method)
-  }
+  }, []);
+
+  // Add note function takes three argument title and description
+  const addNote = useCallback(
+    async (title, description, tag) => {
+      try {
+        // Default options are marked with *
+        const response = await fetch(`${hostName}/api/note/addNote`, {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            "auth-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1N2FkMzI4M2RiMTViM2E5MjdmMjQ2ZSIsImlhdCI6MTcwMjU2MjAzM30.99fYKVlmSlGsF9MVBbS1oqOqA4M-5cBqgY92wPODeOU",
+            // 'auth-token' : "authentication token created when user login "
+          },
+          body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header
+        });
+        if (!response.ok) {
+          // Check for HTTP error status
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        console.log("Adding notes");
+        getNotes(); // Call getNotes function to show note added in browser directly
+      } catch (error) {
+        console.error("Error fetching notes ", error.message);
+      }
+    },
+    [getNotes]
+  ); // This code is appropriate, and you don't need to make any changes unless you have specific reasons to use useCallback. If the getNotes function is stable and doesn't change between renders, you can keep it as is.
 
   // Delete note method take id as parameter for which to perform deletion
   const deleteNote = (id) => {
@@ -90,10 +72,24 @@ const NoteState = (props) => {
   };
 
   // Edit note
-  const editNote = () => {};
-  
+  const editNote = (id, title, description, tag) => {
+    //API call to do
+    // console.log("update note with id : ", id);
+    for (let index = 0; index < notes.length; index++) {
+      const element = notes[index];
+      if(element._id === id){
+        element.title = title;
+        element.description = description;
+        element.tag = tag;
+      }
+      
+    }
+  };
+
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote }}>
+    <NoteContext.Provider
+      value={{ notes, addNote, deleteNote, editNote, getNotes }}
+    >
       {props.children}
     </NoteContext.Provider>
   );
