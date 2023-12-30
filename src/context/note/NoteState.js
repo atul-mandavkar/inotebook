@@ -27,7 +27,7 @@ const NoteState = (props) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const json = await response.json(); // parses JSON response into native JavaScript objects
-      console.log(json);
+      //console.log(json);
       setNotes(json);
     } catch (error) {
       console.error("Error fetching notes ", error.message);
@@ -57,20 +57,40 @@ const NoteState = (props) => {
         console.log("Adding notes");
         getNotes(); // Call getNotes function to show note added in browser directly
       } catch (error) {
-        console.error("Error fetching notes ", error.message);
+        console.error("Error adding notes ", error.message);
       }
     },
     [getNotes]
   ); // This code is appropriate, and you don't need to make any changes unless you have specific reasons to use useCallback. If the getNotes function is stable and doesn't change between renders, you can keep it as is.
 
   // Delete note method take id as parameter for which to perform deletion
-  const deleteNote = (id) => {
-    //console.log("Deleted note with id : ", id);
-    // API call to do (serverside working of this method) Here if we delete only one of newly created note then all newly created note gets automaticaaly delete because they all have same _id
-    const newNotes = notes.filter((note) => note._id !== id); // filter method is used to ignore only that note whose id is match to id from parameter and all other notes saved in newNotes
-    setNotes(newNotes); // setting newNotes in place of notes
-  };
-
+  const deleteNote = useCallback(
+    async (id) => {
+      try {
+        // Default options are marked with *
+        const response = await fetch(`${hostName}/api/note/deleteNote/${id}`, {
+          method: "DELETE", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            "auth-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1N2FkMzI4M2RiMTViM2E5MjdmMjQ2ZSIsImlhdCI6MTcwMjU2MjAzM30.99fYKVlmSlGsF9MVBbS1oqOqA4M-5cBqgY92wPODeOU",
+            // 'auth-token' : "authentication token created when user login "
+          },
+        });
+        if (!response.ok) {
+          // Check for HTTP error status
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        console.log("Deleting note");
+        getNotes(); // Call getNotes function to show note added in browser directly
+      } catch (error) {
+        console.error("Error deleting notes ", error.message);
+      }
+    },
+    [getNotes]
+  );
+  
   // Edit note
   const editNote = (id, title, description, tag) => {
     //API call to do
