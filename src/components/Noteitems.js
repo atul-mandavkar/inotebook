@@ -10,7 +10,9 @@ function Noteitems(props) {
     //console.log("id is : ", note._id);
     deleteNote(note._id);
   }
-  const { note } = props; // destructure note from props send by Note component
+  const { note, updateNote } = props; // destructure note from props send by Note component
+  // updateNote function is also get from Note.js for sending current note to modal of Note.js
+
   return (
     <div className="col-md-3 my-3">
       {" "}
@@ -20,7 +22,8 @@ function Noteitems(props) {
           <div className="d-flex align-items-center"> {/* Flex is used to set all three element in one line and h5 is block element so used flex */}
             <h5 className="card-title flex-grow-1">{note.title}</h5>
             <i className="fa-regular fa-trash-can mx-2" onClick={handleDelete}></i> {/* Fontawesome for delete button */}
-            <i className="fa-regular fa-pen-to-square mx-2"></i> {/* Fontawesome for edit button */}
+            <i className="fa-regular fa-pen-to-square mx-2" onClick={()=> {updateNote(note)}}></i> {/* Fontawesome for edit button */}
+            {/*added onclick function to edit note icon to pass current note as argument*/}
           </div>
           <p className="card-text">{note.description}</p>
         </div>
