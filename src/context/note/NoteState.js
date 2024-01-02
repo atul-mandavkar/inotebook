@@ -54,7 +54,7 @@ const NoteState = (props) => {
           // Check for HTTP error status
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        console.log("Adding notes");
+        console.log("Adding the note successfully");
         getNotes(); // Call getNotes function to show note added in browser directly
       } catch (error) {
         console.error("Error adding notes ", error.message);
@@ -82,7 +82,7 @@ const NoteState = (props) => {
           // Check for HTTP error status
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        console.log("Deleting note");
+        console.log("Deleting the note successfully");
         getNotes(); // Call getNotes function to show note added in browser directly
       } catch (error) {
         console.error("Error deleting notes ", error.message);
@@ -92,19 +92,34 @@ const NoteState = (props) => {
   );
   
   // Edit note
-  const editNote = (id, title, description, tag) => {
-    //API call to do
-    // console.log("update note with id : ", id);
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
-      if(element._id === id){
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+  const editNote = useCallback(
+    async (id, title, description, tag) => {
+      try {
+        // Default options are marked with *
+        const response = await fetch(`${hostName}/api/note/updateNote/${id}`, {
+          method: "PUT", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            "auth-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1N2FkMzI4M2RiMTViM2E5MjdmMjQ2ZSIsImlhdCI6MTcwMjU2MjAzM30.99fYKVlmSlGsF9MVBbS1oqOqA4M-5cBqgY92wPODeOU",
+            // 'auth-token' : "authentication token created when user login "
+          },
+          body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header
+        });
+        if (!response.ok) {
+          // Check for HTTP error status
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        console.log("Updating the note successfully");
+        getNotes(); // Call getNotes function to show note updated in browser directly
+      } catch (error) {
+        console.error("Error updating notes ", error.message);
       }
-      
-    }
-  };
+    },
+    [getNotes]
+  );
+
 
   return (
     <NoteContext.Provider

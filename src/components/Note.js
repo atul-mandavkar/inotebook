@@ -6,13 +6,14 @@ import AddNote from "./AddNote"; // Adding AddNote component here
 
 function Note() {
   const [note, setNote] = useState({
+    id: "",
     titleName: "",
     descriptionName: "",
     tagName: "General",
-  }); // temporary state is created to use note for modal values
+  }); // temporary state is created to use note for modal values and id is also included as editNote from context requires
 
   const context = useContext(noteContext); // using useContext for notes
-  const { notes, getNotes } = context; // desctructring the notes and getNotes from context
+  const { notes, getNotes, editNote } = context; // desctructring the notes and getNotes and editNote from context
   // to show the existing notes in database when page load we used useEffect and useEffect has getNotes function which get all notes in database
   useEffect(() => {
     // to make useEffect runs only once we used following technique (function inside of function in useEffect)
@@ -27,15 +28,18 @@ function Note() {
 
   const updateNote = (currentNote) => { 
     ref.current.click(); // button for opening modal is clicked automatically
-    setNote({titleName: currentNote.title, descriptionName: currentNote.description, tagName: currentNote.tag}); // set value for note to show in modal and value is get from currentNote argument send back by child component NoteItem.js (edit icon part)
+    setNote({id: currentNote._id, titleName: currentNote.title, descriptionName: currentNote.description, tagName: currentNote.tag}); // set value for note to show in modal and value is get from currentNote argument send back by child component NoteItem.js (edit icon part)
   };
   const ref = useRef(null); // ref is created to handle button click automatically and set to null initially
+  const refClose = useRef(null); // refClose is created to close the modal after click on update button
+
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value }); // simple trick to update input note when data is entered in it
   };
   const handleClick = (e) => { // this method is created for handling part after update button of update note is clicked
-    e.preventDefault();
-    console.log("Note is updated ", note);
+    // e.preventDefault(); // not neede prevent default as update button is outside of modal
+    editNote(note.id, note.titleName, note.descriptionName, note.tagName); // we call editNote function of contest and passed id, title, description and tag as arguments
+    refClose.current.click(); // handleClick of update button can cause to click on close button by this reference 
   };  
 
   return (
@@ -120,12 +124,14 @@ function Note() {
             </div>
             <div className="modal-footer">
               <button
+                ref={refClose}
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Close
               </button>
+              {/* Set ref to refClose to close modal after click on update button (to work as close button) as update button call the handleClick function we do from that function */}
               <button
                 type="button"
                 className="btn btn-primary"
@@ -144,7 +150,11 @@ function Note() {
         {notes.map((note, i) => {
           /* map function required to set key to each mapping element (Here i is key), so that each Noteitem component has unique key */
           return (
-            <Noteitems note={note} key={i} updateNote={updateNote} />/* updateNote function is added to handle click of button automatically */
+            <Noteitems
+              note={note}
+              key={i}
+              updateNote={updateNote}
+            /> /* updateNote function is added to handle click of button automatically */
           ); /* returning newlycreated Noteitem component which contain note information which is send as props to Noteitem component */
         })}
       </div>
