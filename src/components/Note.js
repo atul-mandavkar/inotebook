@@ -98,14 +98,13 @@ function Note() {
                   <label htmlFor="descriptionName" className="col-form-label">
                     Description:
                   </label>
-                  <input
-                    type="text"
+                  <textarea
                     className="form-control"
                     id="descriptionName"
                     name="descriptionName"
                     value={note.descriptionName}
                     onChange={onChange}
-                  />
+                  />{/* Replaced input text to textara tag for description */}
                 </div>
                 <div className="mb-3">
                   <label htmlFor="tagName" className="col-form-label">
@@ -136,6 +135,7 @@ function Note() {
                 type="button"
                 className="btn btn-primary"
                 onClick={handleClick}
+                disabled = {note.titleName.length <= 0 || note.descriptionName.length <= 0 || note.tagName <= 0}
               >
                 Update
               </button>
@@ -147,6 +147,11 @@ function Note() {
       <div className="row my-3">
         {/* Making it row property which contain Noteitem as child in columns */}
         <h2>Your Notes: </h2>
+        {notes.length === 0 && (
+          <div className="container text-center mt-5 text-body-tertiary">
+            <h2>No note available</h2>
+          </div>
+        )}{/* if no notes in database then show this message */}
         {notes.map((note, i) => {
           /* map function required to set key to each mapping element (Here i is key), so that each Noteitem component has unique key */
           return (

@@ -11,6 +11,7 @@ function AddNote() {
   const handleClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag); // When submit pressed then addNote function from context is called to add new note
+    setNote({ title: "", description: "", tag: "General" }); // Empting the title and description field after adding note , kept it blank for new note
   }
   const onChange = (e) => {
     setNote({...note, [e.target.name]: e.target.value}); // simple trick to update input note when data is entered in it
@@ -31,21 +32,25 @@ function AddNote() {
               className="form-control"
               id="title"
               name="title"
+              value={note.title}
               aria-describedby="titleHelp"
               onChange={onChange}
+              autoFocus
             />
+            {/* Autofocus for first time when page reload */}
           </div>
           <div className="mb-3">
             <label htmlFor="description" className="form-label">
               Note Description
             </label>
-            <input
-              type="text"
+            <textarea
               className="form-control"
               id="description"
               name="description"
+              value={note.description}
               onChange={onChange}
             />
+            {/* Replaced input text to textara tag for description */}
           </div>
           <div className="mb-3">
             <label htmlFor="tag" className="form-label">
@@ -56,17 +61,19 @@ function AddNote() {
               className="form-control"
               id="tag"
               name="tag"
+              value={note.tag}
               onChange={onChange}
-              defaultValue={"General"}
             />
           </div>
           <button
             type="submit"
             className="btn btn-primary"
             onClick={handleClick}
+            disabled={note.title.length <= 0 || note.description.length <= 0}
           >
-            Submit
+            Add
           </button>
+          {/* If title or description is empty while adding note then add button is disable */}
         </form>
       </div>
     </div>

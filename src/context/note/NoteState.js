@@ -119,7 +119,7 @@ const NoteState = (props) => {
     },
     [getNotes]
   );
-
+// In above three fuctions we do not use separate code for front end to store and show changes , instead we call getNotes function at the end of all three fuctions (like addNote, editNote , deleteNote) as a dependency to useCallback function which memorize note state 
 
   return (
     <NoteContext.Provider
