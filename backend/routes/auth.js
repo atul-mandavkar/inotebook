@@ -59,9 +59,10 @@ router.post("/login", [
   body("email", "Enter valid email").isEmail(),
   body("password", "Password should not empty").exists(),
 ], async (req,res)=>{
+  let success = false; // deciding variable is added for future use ( it show success or not in each response)
   const result = validationResult(req);
   if(!result.isEmpty()){
-    return res.status(400).send({ errors: result.array() });    
+    return res.status(400).send({ success, errors: result.array() });    
   }
 
   const{email, password} = req.body; // destructuring email and password from req.body
@@ -70,18 +71,19 @@ router.post("/login", [
     let user = await User.findOne({ email }); // find if user is availabe or not in database
     if (!user) {
       console.log("User unavailable");
-      return res.status(400).send({ error: "Email or password not correct" });
+      return res.status(400).send({ success, error: "Email or password not correct" });
     }
 
     const passwordCmp = await bcrypt.compare(password, user.password); // bcript method to check password matched to the password in database for given user
     if (!passwordCmp) {
       console.log("User unavailable");
-      return res.status(400).send({ error: "Email or password not correct" });
+      return res.status(400).send({ success, error: "Email or password not correct" });
     }
     console.log("User available");
+    success = true;
     // when user is with correct password and email in database then we send him a json token
     const token = jwt.sign({ id: user.id }, JWT_SECRET); // sign method is used to create token, first paramete is object and second parameter is signatue which is a secrete.
-    return res.send({ token }); // we send token to who signed in instead of sending their whole information
+    return res.send({ success, token }); // we send token to who signed in instead of sending their whole information
   } catch (error) {
     console.error(error.message);
     res.status(500).send("some internal error occured");    
