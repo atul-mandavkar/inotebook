@@ -18,11 +18,12 @@ router.post(
     body("password", "Minimum length is 8 for password").isLength({ min: 8 }),
   ],
   async (req, res) => {
+    let success = false;
     //console.log(req.body); // to check xontent in req.body
     const result = validationResult(req);
     if (!result.isEmpty()) {
       result.array().forEach((e) => console.log(e.msg));
-      return res.status(400).send({ errors: result.array() });
+      return res.status(400).send({ success, errors: result.array() });
     }
 
     try {
@@ -30,7 +31,7 @@ router.post(
       //console.log(isUser);
       if (isUser) {
         console.log("Email alredy exists");
-        return res.status(400).send({ error: "Email already exists" });
+        return res.status(400).send({ success, error: "Email already exists" });
       }
       const user = new User(req.body);
       //console.log(user["password"]); // in model User there is schema user which have key as password
@@ -45,7 +46,8 @@ router.post(
 
         // when user successfully saved in database then we send him a json token 
         const token = jwt.sign({ id: user.id }, JWT_SECRET); // sign method is used to create token, first paramete is object and second parameter is signatue which is a secrete. 
-        return res.send({token}); // we send token to who signed in instead of sending their whole information 
+        success = true;
+        return res.send({success, token}); // we send token to who signed in instead of sending their whole information 
     } catch (error) {
       console.error(error.message);
       res.status(500).send("some internal error occured");

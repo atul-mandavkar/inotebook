@@ -21,14 +21,14 @@ function Login() {
     });
     //console.log("Login successfully");
     const json = await response.json();
-    console.log(json);
+    //console.log(json);
     if (json.success) {
       // redirect to home page when json.success is true
       // save the auth-token and redirect
-      localStorage.setItem("token", json.authtoken); // The localStorage is a simple key-value store that allows web applications to store data persistently in a web browser.
+      localStorage.setItem("token", json.token); // The localStorage is a simple key-value store that allows web applications to store data persistently in a web browser.
       history.push("/"); // This line navigates the user to the root ("/") of the application if get success as true
     } else {
-      alert("Invalid credentials");
+      alert("Invalid credentials, please try agian !");
     }
   };
 
