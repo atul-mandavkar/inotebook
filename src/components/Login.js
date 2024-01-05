@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-function Login() {
+function Login(props) {
   const history = useHistory(); // This line uses the useHistory hook from react-router-dom to access the history object, which allows you to manage navigation history.
   const [credentials, setCredentials] = useState({ email: "", password: "" }); // state is created which having initially an object with email and password to blank
 
@@ -27,8 +27,10 @@ function Login() {
       // save the auth-token and redirect
       localStorage.setItem("token", json.token); // The localStorage is a simple key-value store that allows web applications to store data persistently in a web browser.
       history.push("/"); // This line navigates the user to the root ("/") of the application if get success as true
+      props.showAlert("Logged in successfully!", "success") // showing positive alert through props
     } else {
-      alert("Invalid credentials, please try agian !");
+      //alert("Invalid credentials, please try agian !");
+      props.showAlert("Invalid details", "danger"); // showing negative alert through props
     }
   };
 

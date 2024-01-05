@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-function Signup() {
+function Signup(props) {
   const [showPassword, setShowPassword] = useState(false); // creating a state to toggle between password visibility or hide it without disturbing security of user
   const history = useHistory(); // This line uses the useHistory hook from react-router-dom to access the history object, which allows you to manage navigation history.
   const [credentials, setCredentials] = useState({
@@ -44,13 +44,16 @@ function Signup() {
         // save the auth-token and redirect
         localStorage.setItem("token", json.token); // The localStorage is a simple key-value store that allows web applications to store data persistently in a web browser.
         history.push("/"); // This line navigates the user to the root ("/") of the application if get success as true
+        props.showAlert("Created account successfully!", "success"); // showing positive alert using props
       } else {
-        alert("Invalid credentials");
+        //alert("Invalid credentials"); // This else block of if never execute because of try catch block we used if error occurred then directly alert of catch execute not this block's alert. Actually no need to use try catch block here, but we did for coading purpose.
+        props.showAlert("Invalid credentials", "danger"); // showing negative alett using props
       }
     } catch (error) {
       // No need to use this try catch here, I only used for coding purpose.
       console.error("Error in signup", error.message);
-      alert("An error occurred during signup. Please try again later.");
+      //alert("An error occurred during signup. Please try again later.");
+      props.showAlert("An error occurred during signup, Please try again later", "danger"); // showing negative alert using props
     }
   };
 

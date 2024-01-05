@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 import noteContext from "../context/note/noteContext";
 // Move code for add note from Home component and make new component named AddNote
 
-function AddNote() {
+function AddNote(props) {
   const context = useContext(noteContext); // using useContext for notes
   const {addNote } = context; // desctructring the addNote from context, addNote is used here
 
@@ -11,6 +11,7 @@ function AddNote() {
   const handleClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag); // When submit pressed then addNote function from context is called to add new note
+    props.showAlert("Note added successfully!", "success"); // showing positive alert using props
     setNote({ title: "", description: "", tag: "General" }); // Empting the title and description field after adding note , kept it blank for new note
   }
   const onChange = (e) => {

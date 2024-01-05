@@ -3,15 +3,18 @@ import noteContext from "../context/note/noteContext";
 // noteContext is imported to use contex here 
 
 function Noteitems(props) {
-  const context = useContext(noteContext); 
-  const {deleteNote} = context; // Here we only use deleteNote function from context not other function from context
-  const handleDelete = (e) => { // handleDelete function is created who call deleteNote from context and pass current working note id as argument
+  const context = useContext(noteContext);
+  const { deleteNote } = context; // Here we only use deleteNote function from context not other function from context
+  const { note, updateNote, showAlert } = props; // destructure note, updateNote and showAlert from props send by Note component
+  // updateNote function is also get from Note.js for sending current note to modal of Note.js
+
+  const handleDelete = (e) => {
+    // handleDelete function is created who call deleteNote from context and pass current working note id as argument
     e.preventDefault();
     //console.log("id is : ", note._id);
     deleteNote(note._id);
-  }
-  const { note, updateNote } = props; // destructure note from props send by Note component
-  // updateNote function is also get from Note.js for sending current note to modal of Note.js
+    showAlert("Note deleted successfully!", "success"); // show positive alert using props
+  };
 
   return (
     <div className="col-md-3 my-3">

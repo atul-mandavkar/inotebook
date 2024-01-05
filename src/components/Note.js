@@ -4,7 +4,7 @@ import Noteitems from "./Noteitems";
 // Removing all Note related code from Home component and paste here
 import AddNote from "./AddNote"; // Adding AddNote component here
 
-function Note() {
+function Note(props) {
   const [note, setNote] = useState({
     id: "",
     titleName: "",
@@ -39,12 +39,14 @@ function Note() {
   const handleClick = (e) => { // this method is created for handling part after update button of update note is clicked
     // e.preventDefault(); // not neede prevent default as update button is outside of modal
     editNote(note.id, note.titleName, note.descriptionName, note.tagName); // we call editNote function of contest and passed id, title, description and tag as arguments
+    props.showAlert("Note updated successfully!", "success"); // showing positive alert using props
     refClose.current.click(); // handleClick of update button can cause to click on close button by this reference 
   };  
 
   return (
     <>
-      <AddNote />
+      <AddNote showAlert={props.showAlert} />
+      {/* forwarding showAlert as props to AddNote component */}
       {/* Modal component from bootstrap in Note.js because to handle each modal according to each note and Note.js has map method which pass notes */}
       <button
         ref={ref}
@@ -104,7 +106,8 @@ function Note() {
                     name="descriptionName"
                     value={note.descriptionName}
                     onChange={onChange}
-                  />{/* Replaced input text to textara tag for description */}
+                  />
+                  {/* Replaced input text to textara tag for description */}
                 </div>
                 <div className="mb-3">
                   <label htmlFor="tagName" className="col-form-label">
@@ -135,7 +138,11 @@ function Note() {
                 type="button"
                 className="btn btn-primary"
                 onClick={handleClick}
-                disabled = {note.titleName.length <= 0 || note.descriptionName.length <= 0 || note.tagName <= 0}
+                disabled={
+                  note.titleName.length <= 0 ||
+                  note.descriptionName.length <= 0 ||
+                  note.tagName <= 0
+                }
               >
                 Update
               </button>
@@ -151,15 +158,18 @@ function Note() {
           <div className="container text-center mt-5 text-body-tertiary">
             <h2>No note available</h2>
           </div>
-        )}{/* if no notes in database then show this message */}
+        )}
+        {/* if no notes in database then show this message */}
         {notes.map((note, i) => {
           /* map function required to set key to each mapping element (Here i is key), so that each Noteitem component has unique key */
           return (
             <Noteitems
               note={note}
               key={i}
+              showAlert={props.showAlert}
               updateNote={updateNote}
             /> /* updateNote function is added to handle click of button automatically */
+            /* forwarding showAlert as props to NoteItems component */
           ); /* returning newlycreated Noteitem component which contain note information which is send as props to Noteitem component */
         })}
       </div>
