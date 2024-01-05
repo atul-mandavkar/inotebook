@@ -3,6 +3,7 @@ import noteContext from "../context/note/noteContext";
 import Noteitems from "./Noteitems";
 // Removing all Note related code from Home component and paste here
 import AddNote from "./AddNote"; // Adding AddNote component here
+import { useHistory } from "react-router-dom";
 
 function Note(props) {
   const [note, setNote] = useState({
@@ -12,23 +13,36 @@ function Note(props) {
     tagName: "General",
   }); // temporary state is created to use note for modal values and id is also included as editNote from context requires
 
+  const history = useHistory();
   const context = useContext(noteContext); // using useContext for notes
   const { notes, getNotes, editNote } = context; // desctructring the notes and getNotes and editNote from context
   // to show the existing notes in database when page load we used useEffect and useEffect has getNotes function which get all notes in database
   useEffect(() => {
     // to make useEffect runs only once we used following technique (function inside of function in useEffect)
     const fetchNotes = () => {
-      // Fetch notes using the getNotes function
-      getNotes();
+      if (localStorage.getItem("token")) {
+        // if token is available in local storage of web browser then show notes of that user
+        // Fetch notes using the getNotes function
+        getNotes();
+      } else {
+        // else redirect to login page (No one can access note before login)
+        history.push("/login");
+      }
     };
 
     // Call the fetchNotes function
     fetchNotes();
-  }, [getNotes]);
+    
+  }, [getNotes, history]);
 
-  const updateNote = (currentNote) => { 
+  const updateNote = (currentNote) => {
     ref.current.click(); // button for opening modal is clicked automatically
-    setNote({id: currentNote._id, titleName: currentNote.title, descriptionName: currentNote.description, tagName: currentNote.tag}); // set value for note to show in modal and value is get from currentNote argument send back by child component NoteItem.js (edit icon part)
+    setNote({
+      id: currentNote._id,
+      titleName: currentNote.title,
+      descriptionName: currentNote.description,
+      tagName: currentNote.tag,
+    }); // set value for note to show in modal and value is get from currentNote argument send back by child component NoteItem.js (edit icon part)
   };
   const ref = useRef(null); // ref is created to handle button click automatically and set to null initially
   const refClose = useRef(null); // refClose is created to close the modal after click on update button
@@ -36,12 +50,13 @@ function Note(props) {
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value }); // simple trick to update input note when data is entered in it
   };
-  const handleClick = (e) => { // this method is created for handling part after update button of update note is clicked
+  const handleClick = (e) => {
+    // this method is created for handling part after update button of update note is clicked
     // e.preventDefault(); // not neede prevent default as update button is outside of modal
     editNote(note.id, note.titleName, note.descriptionName, note.tagName); // we call editNote function of contest and passed id, title, description and tag as arguments
     props.showAlert("Note updated successfully!", "success"); // showing positive alert using props
-    refClose.current.click(); // handleClick of update button can cause to click on close button by this reference 
-  };  
+    refClose.current.click(); // handleClick of update button can cause to click on close button by this reference
+  };
 
   return (
     <>

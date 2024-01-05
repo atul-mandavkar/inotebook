@@ -18,8 +18,8 @@ const NoteState = (props) => {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
           "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1N2FkMzI4M2RiMTViM2E5MjdmMjQ2ZSIsImlhdCI6MTcwMjU2MjAzM30.99fYKVlmSlGsF9MVBbS1oqOqA4M-5cBqgY92wPODeOU",
-          // 'auth-token' : "authentication token created when user login "
+            localStorage.getItem('token'),
+          // 'auth-token' : "authentication token created when user login  (Here we removed the hardcode form of token and take the token from local storage of web page which is saved at login or signup time"
         },
       });
       if (!response.ok) {
@@ -45,8 +45,8 @@ const NoteState = (props) => {
             "Content-Type": "application/json",
             // 'Content-Type': 'application/x-www-form-urlencoded',
             "auth-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1N2FkMzI4M2RiMTViM2E5MjdmMjQ2ZSIsImlhdCI6MTcwMjU2MjAzM30.99fYKVlmSlGsF9MVBbS1oqOqA4M-5cBqgY92wPODeOU",
-            // 'auth-token' : "authentication token created when user login "
+              localStorage.getItem('token'),
+            // 'auth-token' : "authentication token created when user login  (Here we removed the hardcode form of token and take the token from local storage of web page which is saved at login or signup time"
           },
           body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header
         });
@@ -74,8 +74,8 @@ const NoteState = (props) => {
             "Content-Type": "application/json",
             // 'Content-Type': 'application/x-www-form-urlencoded',
             "auth-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1N2FkMzI4M2RiMTViM2E5MjdmMjQ2ZSIsImlhdCI6MTcwMjU2MjAzM30.99fYKVlmSlGsF9MVBbS1oqOqA4M-5cBqgY92wPODeOU",
-            // 'auth-token' : "authentication token created when user login "
+              localStorage.getItem('token'),
+            // 'auth-token' : "authentication token created when user login  (Here we removed the hardcode form of token and take the token from local storage of web page which is saved at login or signup time"
           },
         });
         if (!response.ok) {
@@ -102,8 +102,8 @@ const NoteState = (props) => {
             "Content-Type": "application/json",
             // 'Content-Type': 'application/x-www-form-urlencoded',
             "auth-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1N2FkMzI4M2RiMTViM2E5MjdmMjQ2ZSIsImlhdCI6MTcwMjU2MjAzM30.99fYKVlmSlGsF9MVBbS1oqOqA4M-5cBqgY92wPODeOU",
-            // 'auth-token' : "authentication token created when user login "
+              localStorage.getItem('token'),
+            // 'auth-token' : "authentication token created when user login  (Here we removed the hardcode form of token and take the token from local storage of web page which is saved at login or signup time"
           },
           body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header
         });

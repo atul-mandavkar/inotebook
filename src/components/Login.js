@@ -26,8 +26,8 @@ function Login(props) {
       // redirect to home page when json.success is true
       // save the auth-token and redirect
       localStorage.setItem("token", json.token); // The localStorage is a simple key-value store that allows web applications to store data persistently in a web browser.
+      props.showAlert("Logged in successfully!", "success"); // showing positive alert through props
       history.push("/"); // This line navigates the user to the root ("/") of the application if get success as true
-      props.showAlert("Logged in successfully!", "success") // showing positive alert through props
     } else {
       //alert("Invalid credentials, please try agian !");
       props.showAlert("Invalid details", "danger"); // showing negative alert through props
@@ -43,6 +43,7 @@ function Login(props) {
 
   return (
     <div>
+      <h2 className="my-3 text-center">Login to iNotebook</h2>
       <div className="container bg-dark-subtle" style={{ maxWidth: "600px" }}>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

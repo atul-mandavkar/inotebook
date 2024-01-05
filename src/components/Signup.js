@@ -43,8 +43,8 @@ function Signup(props) {
         // redirect to home page when json.success is true
         // save the auth-token and redirect
         localStorage.setItem("token", json.token); // The localStorage is a simple key-value store that allows web applications to store data persistently in a web browser.
-        history.push("/"); // This line navigates the user to the root ("/") of the application if get success as true
         props.showAlert("Created account successfully!", "success"); // showing positive alert using props
+        history.push("/"); // This line navigates the user to the root ("/") of the application if get success as true
       } else {
         //alert("Invalid credentials"); // This else block of if never execute because of try catch block we used if error occurred then directly alert of catch execute not this block's alert. Actually no need to use try catch block here, but we did for coading purpose.
         props.showAlert("Invalid credentials", "danger"); // showing negative alett using props
@@ -66,6 +66,7 @@ function Signup(props) {
 
   return (
     <div>
+      <h2 className="my-3 text-center">Create an account</h2>
       <div className="container bg-dark-subtle" style={{ maxWidth: "600px" }}>
         <form onSubmit={handleSubmit}>
           {/* because of onSubmit we can used required and minLength property in tag */}
