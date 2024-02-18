@@ -8,17 +8,20 @@ function Login(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Default options are marked with *
-    const response = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: JSON.stringify({
-        email: credentials.email,
-        password: credentials.password,
-      }), // body data type must match "Content-Type" header
-    });
+    const response = await fetch(
+      "https://inotebook-backend-1bh4.onrender.com/api/auth/login",
+      {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: JSON.stringify({
+          email: credentials.email,
+          password: credentials.password,
+        }), // body data type must match "Content-Type" header
+      }
+    );
     //console.log("Login successfully");
     const json = await response.json();
     //console.log(json);

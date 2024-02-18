@@ -16,7 +16,7 @@ function Signup(props) {
     try {
       // Default options are marked with *
       const response = await fetch(
-        "http://localhost:5000/api/auth/createUser",
+        "https://inotebook-backend-1bh4.onrender.com/api/auth/createUser",
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {

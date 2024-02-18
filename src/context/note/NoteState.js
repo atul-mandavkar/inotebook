@@ -5,7 +5,7 @@ const NoteState = (props) => {
   const notesInitial = [];
 
   const [notes, setNotes] = useState(notesInitial); // using useNote to set state of notes
-  const hostName = "http://localhost:5000"; // make a variable which contain a common string used for path for fetch method
+  const hostName = "https://inotebook-backend-1bh4.onrender.com"; //"http://localhost:5000"; // make a variable which contain a common string used for path for fetch method
 
   // get all notes function which take no argument because fetchAllNotes api not use any content from body of html
   // By using useCallback with an empty dependency array, you ensure that getNotes remains the same function reference across renders. This should prevent the infinite loop in your Note component.
