@@ -54,7 +54,7 @@ const NoteState = (props) => {
           // Check for HTTP error status
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        console.log("Adding the note successfully");
+        //console.log("Adding the note successfully");
         getNotes(); // Call getNotes function to show note added in browser directly
       } catch (error) {
         console.error("Error adding notes ", error.message);
@@ -82,7 +82,7 @@ const NoteState = (props) => {
           // Check for HTTP error status
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        console.log("Deleting the note successfully");
+        //console.log("Deleting the note successfully");
         getNotes(); // Call getNotes function to show note added in browser directly
       } catch (error) {
         console.error("Error deleting notes ", error.message);
