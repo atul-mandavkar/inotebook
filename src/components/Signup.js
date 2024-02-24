@@ -11,12 +11,15 @@ function Signup(props) {
     cpassword: "",
   }); // state is created which having initially an object with name, email and password, cpassword to blank
   const { name, email, password, cpassword } = credentials; // destructuring from credentials object
+  const hostName = process.env.REACT_APP_BACKEND_URL; // making backend url as env variable
+  //console.log(hostName);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Default options are marked with *
       const response = await fetch(
-        "https://inotebook-backend-1bh4.onrender.com/api/auth/createUser",
+        `${hostName}/api/auth/createUser`,
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {
@@ -53,7 +56,10 @@ function Signup(props) {
       // No need to use this try catch here, I only used for coding purpose.
       console.error("Error in signup", error.message);
       //alert("An error occurred during signup. Please try again later.");
-      props.showAlert("An error occurred during signup, Please try again later", "danger"); // showing negative alert using props
+      props.showAlert(
+        "An error occurred during signup, Please try again later",
+        "danger"
+      ); // showing negative alert using props
     }
   };
 
@@ -142,13 +148,15 @@ function Signup(props) {
               <span className="container text-light bg-danger font-monospace">
                 Confirm Passwords do not match
               </span>
-            )} {/* Showing warning when both password and confirm password not match each other */}
+            )}{" "}
+            {/* Showing warning when both password and confirm password not match each other */}
           </div>
           <button
             type="submit"
             className="btn btn-primary"
-            disabled={!name | !email | !password | password !== cpassword}
-          >{/* Here only need to check password match, no need of other checks (as we used required in input fields), but I used for coding purpose */}
+            disabled={!name | !email | !password | (password !== cpassword)}
+          >
+            {/* Here only need to check password match, no need of other checks (as we used required in input fields), but I used for coding purpose */}
             SignUp
           </button>
         </form>

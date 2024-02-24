@@ -4,12 +4,14 @@ import { useHistory } from "react-router-dom";
 function Login(props) {
   const history = useHistory(); // This line uses the useHistory hook from react-router-dom to access the history object, which allows you to manage navigation history.
   const [credentials, setCredentials] = useState({ email: "", password: "" }); // state is created which having initially an object with email and password to blank
+  const hostName = process.env.REACT_APP_BACKEND_URL; // making backend url as env variable
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Default options are marked with *
     const response = await fetch(
-      "https://inotebook-backend-1bh4.onrender.com/api/auth/login",
+      `${hostName}/api/auth/login`,
       {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
