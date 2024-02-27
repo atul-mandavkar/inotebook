@@ -11,15 +11,12 @@ function Signup(props) {
     cpassword: "",
   }); // state is created which having initially an object with name, email and password, cpassword to blank
   const { name, email, password, cpassword } = credentials; // destructuring from credentials object
-  const hostName = process.env.REACT_APP_BACKEND_URL; // making backend url as env variable
-  //console.log(hostName);
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Default options are marked with *
       const response = await fetch(
-        `${hostName}/api/auth/createUser`,
+        "https://inotebook-backend-1bh4.onrender.com/api/auth/createUser",
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {

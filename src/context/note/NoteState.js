@@ -5,9 +5,7 @@ const NoteState = (props) => {
   const notesInitial = [];
 
   const [notes, setNotes] = useState(notesInitial); // using useNote to set state of notes
-  //const hostName = "https://inotebook-backend-1bh4.onrender.com"; //"http://localhost:5000"; // make a variable which contain a common string used for path for fetch method
-  const hostName = process.env.REACT_APP_BACKEND_URL; // making backend url as env variable
-  //console.log(hostName);
+  const hostName = "https://inotebook-backend-1bh4.onrender.com"; //"http://localhost:5000"; // make a variable which contain a common string used for path for fetch method
 
   // get all notes function which take no argument because fetchAllNotes api not use any content from body of html
   // By using useCallback with an empty dependency array, you ensure that getNotes remains the same function reference across renders. This should prevent the infinite loop in your Note component.
@@ -33,7 +31,7 @@ const NoteState = (props) => {
     } catch (error) {
       console.error("Error fetching notes ", error.message);
     }
-  }, [hostName]);
+  }, []);
 
   // Add note function takes three argument title and description
   const addNote = useCallback(
@@ -60,7 +58,7 @@ const NoteState = (props) => {
         console.error("Error adding notes ", error.message);
       }
     },
-    [getNotes, hostName]
+    [getNotes]
   ); // This code is appropriate, and you don't need to make any changes unless you have specific reasons to use useCallback. If the getNotes function is stable and doesn't change between renders, you can keep it as is.
 
   // Delete note method take id as parameter for which to perform deletion
@@ -87,7 +85,7 @@ const NoteState = (props) => {
         console.error("Error deleting notes ", error.message);
       }
     },
-    [getNotes, hostName]
+    [getNotes]
   );
 
   // Edit note
@@ -115,7 +113,7 @@ const NoteState = (props) => {
         console.error("Error updating notes ", error.message);
       }
     },
-    [getNotes, hostName]
+    [getNotes]
   );
   // In above three fuctions we do not use separate code for front end to store and show changes , instead we call getNotes function at the end of all three fuctions (like addNote, editNote , deleteNote) as a dependency to useCallback function which memorize note state
 

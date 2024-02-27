@@ -11,13 +11,13 @@ import { useState } from "react";
 
 function App() {
   const [alert, setAlert] = useState(null); // created state for storing alert data
-  const showAlert = (message, type) => { // This function handle alert msg and tyoe and also close the error after sometimes (here 3 mins)
+  const showAlert = (message, type) => {
+    // This function handle alert msg and tyoe and also close the error after sometimes (here 3 mins)
     setAlert({ msg: message, type: type });
     setTimeout(() => {
       setAlert(null);
     }, 3000);
   };
-  
 
   return (
     <>
