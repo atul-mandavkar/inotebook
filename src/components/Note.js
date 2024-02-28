@@ -103,6 +103,7 @@ function Note(props) {
                     Title:
                   </label>
                   <input
+                    autoComplete="off"
                     type="text"
                     className="form-control"
                     id="titleName"
@@ -116,6 +117,7 @@ function Note(props) {
                     Description:
                   </label>
                   <textarea
+                    autoComplete="off"
                     className="form-control"
                     id="descriptionName"
                     name="descriptionName"
@@ -129,6 +131,7 @@ function Note(props) {
                     Tag:
                   </label>
                   <input
+                    autoComplete="off"
                     type="text"
                     className="form-control"
                     id="tagName"
@@ -136,6 +139,9 @@ function Note(props) {
                     value={note.tagName}
                     onChange={onChange}
                   />
+                  {/* In each input field, the autoComplete attribute is set to "off", indicating that browser autocomplete should be turned off for these fields. Since the fields are for inputting unique data such as title, description, and tag, it's appropriate to disable autocomplete to prevent the browser from suggesting previously entered values, which might not be relevant in this context.
+                      By providing autoComplete="off", you ensure that the browser doesn't interfere with the input fields in the modal, allowing users to enter data without any unexpected suggestions or interference from browser autofill.
+                   */}
                 </div>
               </form>
             </div>

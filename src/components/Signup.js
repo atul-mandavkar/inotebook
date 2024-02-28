@@ -78,6 +78,7 @@ function Signup(props) {
               Name:
             </label>
             <input
+              autoComplete="name"
               type="text"
               className="form-control"
               id="name"
@@ -93,6 +94,7 @@ function Signup(props) {
               Email:
             </label>
             <input
+              autoComplete="email"
               type="email"
               className="form-control"
               id="email"
@@ -107,6 +109,7 @@ function Signup(props) {
               Password:
             </label>
             <input
+              autoComplete="new-password"
               type="password"
               className="form-control"
               id="password"
@@ -123,6 +126,7 @@ function Signup(props) {
             </label>
             <div className="input-group">
               <input
+                autoComplete="new-password"
                 type={showPassword ? "text" : "password"}
                 className="form-control"
                 id="cpassword"
@@ -132,6 +136,10 @@ function Signup(props) {
                 minLength={8}
                 required
               />
+              {/* In the first input field for the name, the autoComplete attribute is set to "name", indicating that it should be autofilled with a name if available.
+                  In the second input field for the email, the autoComplete attribute is set to "email", indicating that it should be autofilled with an email address if available.
+                  In the third input field for the password, and the fourth input field for the confirm password, the autoComplete attribute is set to "new-password". This value tells the browser that these fields are for entering a new password, preventing the browser from suggesting previously used passwords.
+               */}
               <span className="input-group-text">
                 <i
                   className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}

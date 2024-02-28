@@ -29,6 +29,7 @@ function AddNote(props) {
               Note Title
             </label>
             <input
+              autoComplete="off"
               type="text"
               className="form-control"
               id="title"
@@ -45,6 +46,7 @@ function AddNote(props) {
               Note Description
             </label>
             <textarea
+              autoComplete="off"
               className="form-control"
               id="description"
               name="description"
@@ -58,6 +60,7 @@ function AddNote(props) {
               Note Tag
             </label>
             <input
+              autoComplete="off"
               type="text"
               className="form-control"
               id="tag"
@@ -65,6 +68,9 @@ function AddNote(props) {
               value={note.tag}
               onChange={onChange}
             />
+            {/* In each input field, the autoComplete attribute is set to "off" to disable the browser's autofill feature for these fields. This is commonly done for fields where user input is unique and not suitable for autofilling, such as note titles, descriptions, and tags.
+                By setting autoComplete="off", you prevent the browser from suggesting previous input values for these fields, ensuring a clean and appropriate user experience for adding notes. 
+            */}
           </div>
           <button
             type="submit"

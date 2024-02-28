@@ -54,6 +54,7 @@ function Login(props) {
               Email:
             </label>
             <input
+              autoComplete="email"
               type="email"
               className="form-control"
               id="email"
@@ -68,6 +69,7 @@ function Login(props) {
               Password:
             </label>
             <input
+              autoComplete="current-password"
               type="password"
               className="form-control"
               id="password"
@@ -75,6 +77,11 @@ function Login(props) {
               value={credentials.password}
               onChange={onChange}
             />
+            {/* autoComplete is added because of name or id property in both input tags of form with proper values.
+                In the first input field for email, the autoComplete attribute is set to "email", indicating that it should be autofilled with an email address if available.
+                In the second input field for the password, the autoComplete attribute is set to "current-password", indicating that it should be autofilled with a current password if available.
+                By providing these specific autoComplete attribute values, you help the browser's autofill feature identify the type of data expected in each field, improving the user experience for your login form
+            */}
           </div>
           <button type="submit" className="btn btn-primary">
             Login
