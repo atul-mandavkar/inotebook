@@ -107,7 +107,7 @@ const NoteState = (props) => {
           // Check for HTTP error status
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        console.log("Updating the note successfully");
+        //console.log("Updating the note successfully");
         getNotes(); // Call getNotes function to show note updated in browser directly
       } catch (error) {
         console.error("Error updating notes ", error.message);
