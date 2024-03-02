@@ -11,25 +11,24 @@ function Signup(props) {
     cpassword: "",
   }); // state is created which having initially an object with name, email and password, cpassword to blank
   const { name, email, password, cpassword } = credentials; // destructuring from credentials object
+  //const hostName = "https://inotebook-backend-1bh4.onrender.com";// adding variable as hostNama for backend link to used it
+  const hostName = process.env.REACT_APP_BACKEND_URL; // using environment variable
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Default options are marked with *
-      const response = await fetch(
-        "https://inotebook-backend-1bh4.onrender.com/api/auth/createUser",
-        {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            "Content-Type": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            password,
-          }), // body data type must match "Content-Type" header
-        }
-      );
+      const response = await fetch(`${hostName}/api/auth/createUser`, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }), // body data type must match "Content-Type" header
+      });
 
       if (!response.ok) {
         // Check for HTTP error status

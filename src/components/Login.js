@@ -4,24 +4,23 @@ import { useHistory } from "react-router-dom";
 function Login(props) {
   const history = useHistory(); // This line uses the useHistory hook from react-router-dom to access the history object, which allows you to manage navigation history.
   const [credentials, setCredentials] = useState({ email: "", password: "" }); // state is created which having initially an object with email and password to blank
+  //const hostName = "https://inotebook-backend-1bh4.onrender.com";//adding variable as hostName for backend link for using it
+  const hostName = process.env.REACT_APP_BACKEND_URL; // using environment variable
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Default options are marked with *
-    const response = await fetch(
-      "https://inotebook-backend-1bh4.onrender.com/api/auth/login",
-      {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: JSON.stringify({
-          email: credentials.email,
-          password: credentials.password,
-        }), // body data type must match "Content-Type" header
-      }
-    );
+    const response = await fetch(`${hostName}/api/auth/login`, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: JSON.stringify({
+        email: credentials.email,
+        password: credentials.password,
+      }), // body data type must match "Content-Type" header
+    });
     //console.log("Login successfully");
     const json = await response.json();
     //console.log(json);
@@ -83,7 +82,11 @@ function Login(props) {
                 By providing these specific autoComplete attribute values, you help the browser's autofill feature identify the type of data expected in each field, improving the user experience for your login form
             */}
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={!credentials.email || !credentials.password}
+          >
             Login
           </button>
         </form>

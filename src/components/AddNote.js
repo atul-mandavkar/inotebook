@@ -76,11 +76,11 @@ function AddNote(props) {
             type="submit"
             className="btn btn-primary"
             onClick={handleClick}
-            disabled={note.title.length <= 0 || note.description.length <= 0}
+            disabled={note.title.length < 4 || note.description.length < 8}
           >
             Add
           </button>
-          {/* If title or description is empty while adding note then add button is disable */}
+          {/* If title or description length is less than 4 and 8 respectively while adding note then add button is disable */}
         </form>
       </div>
     </div>
